@@ -12,21 +12,23 @@ function GuiController:KnitInit()
 end
 
 function GuiController:KnitStart()
-    MainGui = ReplicatedStorage:WaitForChild("MainGui")
-    MainGui.Parent = Player:WaitForChild("PlayerGui")
+    for _, v in pairs(ReplicatedStorage:WaitForChild("Guis"):GetChildren()) do
+        v.Parent = Player:WaitForChild("PlayerGui")
+    end
+    MainGui = Player:WaitForChild("PlayerGui"):WaitForChild("MainGui")
 
     MainGui.MainBar.Inner.Build.MouseButton1Down:Connect(function()
         self:SetState("Build")
     end)
 
-    self.StateChange:Connect(function(state)
+    self.StateChange:Connect(function(state: string)
         if state == "Build" then
-            MainGui.MainBar:TweenPosition(UDim2.fromScale(0.5, 1.1), "Out", "Quad", 0.5, true, function()
+            MainGui.MainBar:TweenPosition(UDim2.fromScale(0.5, 1.1), "Out", "Quad", 0.25, true, function()
                 MainGui.MainBar.Visible = false
             end)
         elseif state == "None" then
             MainGui.MainBar.Visible = true
-            MainGui.MainBar:TweenPosition(UDim2.fromScale(0.5, 1), "In", "Quad", 0.5, true)
+            MainGui.MainBar:TweenPosition(UDim2.fromScale(0.5, 1), "In", "Quad", 0.25, true)
         end
     end)
 end
